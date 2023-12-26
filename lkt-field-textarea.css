@@ -26,6 +26,7 @@
 .lkt-field-textarea textarea {
     height: calc(var(--input-height) * 2 + var(--gap));
     min-height: calc(var(--input-height) * 2 + var(--gap));
+    max-height: calc(var(--input-height) * 4 + var(--gap) * 3);
     resize: vertical;
     box-sizing: border-box;
     width: 100%;
@@ -141,7 +142,8 @@
     line-height: var(--input-height);
     max-height: calc(var(--input-height) * 4 + var(--gap) * 3);
     overflow-y: auto;
-    resize: vertical;
+    /*resize: vertical;*/
+    white-space: break-spaces;
 }
 
 
