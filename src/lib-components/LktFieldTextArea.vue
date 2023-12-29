@@ -29,13 +29,11 @@ const props = defineProps({
     allowReadModeSwitch: {type: Boolean, default: false},
     tabindex: {type: Number, default: undefined},
     mandatory: {type: Boolean, default: false},
-    showPassword: {type: Boolean, default: false},
     reset: {type: Boolean, default: false},
     resetMessage: {type: String, default: ''},
     mandatoryMessage: {type: String, default: ''},
     infoMessage: {type: String, default: ''},
     errorMessage: {type: String, default: ''},
-    showPasswordMessage: {type: String, default: ''},
     switchEditionMessage: {type: String, default: ''},
 });
 
@@ -49,7 +47,6 @@ const inputElement = ref(null);
 // Reactive data
 const originalValue = ref(props.modelValue),
     value = ref(props.modelValue),
-    showPasswordIcon = ref(false),
     focusing = ref(false),
     editable = ref(!props.readMode);
 
