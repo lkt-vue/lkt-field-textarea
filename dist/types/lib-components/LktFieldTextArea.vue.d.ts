@@ -52,10 +52,6 @@ declare const _default: {
             type: BooleanConstructor;
             default: boolean;
         };
-        showPassword: {
-            type: BooleanConstructor;
-            default: boolean;
-        };
         reset: {
             type: BooleanConstructor;
             default: boolean;
@@ -73,10 +69,6 @@ declare const _default: {
             default: string;
         };
         errorMessage: {
-            type: StringConstructor;
-            default: string;
-        };
-        showPasswordMessage: {
             type: StringConstructor;
             default: string;
         };
@@ -152,10 +144,6 @@ declare const _default: {
             type: BooleanConstructor;
             default: boolean;
         };
-        showPassword: {
-            type: BooleanConstructor;
-            default: boolean;
-        };
         reset: {
             type: BooleanConstructor;
             default: boolean;
@@ -173,10 +161,6 @@ declare const _default: {
             default: string;
         };
         errorMessage: {
-            type: StringConstructor;
-            default: string;
-        };
-        showPasswordMessage: {
             type: StringConstructor;
             default: string;
         };
@@ -208,12 +192,10 @@ declare const _default: {
         valid: boolean;
         readMode: boolean;
         allowReadModeSwitch: boolean;
-        showPassword: boolean;
         resetMessage: string;
         mandatoryMessage: string;
         infoMessage: string;
         errorMessage: string;
-        showPasswordMessage: string;
         switchEditionMessage: string;
     }, true, {}, {}, {
         P: {};
@@ -275,10 +257,6 @@ declare const _default: {
             type: BooleanConstructor;
             default: boolean;
         };
-        showPassword: {
-            type: BooleanConstructor;
-            default: boolean;
-        };
         reset: {
             type: BooleanConstructor;
             default: boolean;
@@ -296,10 +274,6 @@ declare const _default: {
             default: string;
         };
         errorMessage: {
-            type: StringConstructor;
-            default: string;
-        };
-        showPasswordMessage: {
             type: StringConstructor;
             default: string;
         };
@@ -337,12 +311,10 @@ declare const _default: {
         valid: boolean;
         readMode: boolean;
         allowReadModeSwitch: boolean;
-        showPassword: boolean;
         resetMessage: string;
         mandatoryMessage: string;
         infoMessage: string;
         errorMessage: string;
-        showPasswordMessage: string;
         switchEditionMessage: string;
     }>;
     __isFragment?: never;
@@ -401,10 +373,6 @@ declare const _default: {
         type: BooleanConstructor;
         default: boolean;
     };
-    showPassword: {
-        type: BooleanConstructor;
-        default: boolean;
-    };
     reset: {
         type: BooleanConstructor;
         default: boolean;
@@ -422,10 +390,6 @@ declare const _default: {
         default: string;
     };
     errorMessage: {
-        type: StringConstructor;
-        default: string;
-    };
-    showPasswordMessage: {
         type: StringConstructor;
         default: string;
     };
@@ -463,12 +427,10 @@ declare const _default: {
     valid: boolean;
     readMode: boolean;
     allowReadModeSwitch: boolean;
-    showPassword: boolean;
     resetMessage: string;
     mandatoryMessage: string;
     infoMessage: string;
     errorMessage: string;
-    showPasswordMessage: string;
     switchEditionMessage: string;
 }, {}, string, {}> & import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps & (new () => {
     $slots: {
