@@ -1,4 +1,4 @@
-import { defineComponent as J, useSlots as P, ref as y, computed as d, watch as b, openBlock as o, createElementBlock as i, normalizeClass as Q, unref as v, renderSlot as W, createCommentVNode as s, withDirectives as K, vModelText as F, createElementVNode as H, nextTick as X } from "vue";
+import { defineComponent as J, useSlots as P, ref as y, computed as s, watch as b, openBlock as o, createElementBlock as i, normalizeClass as Q, unref as v, renderSlot as W, createCommentVNode as d, withDirectives as K, vModelText as F, createElementVNode as H, nextTick as X } from "vue";
 import { generateRandomString as I } from "lkt-string-tools";
 import { createLktEvent as c } from "lkt-events";
 const Y = ["data-show-ui", "data-labeled"], Z = ["for", "innerHTML"], ee = {
@@ -7,14 +7,14 @@ const Y = ["data-show-ui", "data-labeled"], Z = ["for", "innerHTML"], ee = {
 }, le = ["value", "name", "id", "disabled", "readonly", "placeholder", "tabindex", "autocomplete"], te = ["value", "name", "id", "disabled", "readonly", "tabindex", "autocomplete"], ae = {
   key: 2,
   class: "lkt-field__state"
-}, oe = ["title"], ie = ["title"], ne = ["title"], se = ["title"], de = ["title"], ue = {
+}, oe = ["title"], ie = ["title"], ne = ["title"], de = ["title"], se = ["title"], ue = {
   key: 3,
   class: "lkt-field-textarea__read"
 }, re = ["innerHTML", "title"], ce = {
   key: 0,
   class: "lkt-field__state"
-}, fe = ["title"], ve = { name: "LktFieldTextArea", inheritAttrs: !1 }, ye = /* @__PURE__ */ J({
-  ...ve,
+}, fe = ["title"], ve = /* @__PURE__ */ J({
+  __name: "LktFieldTextarea",
   props: {
     modelValue: { type: [String, Number], default: "" },
     placeholder: { type: String, default: "" },
@@ -38,13 +38,13 @@ const Y = ["data-show-ui", "data-labeled"], Z = ["for", "innerHTML"], ee = {
   },
   emits: ["update:modelValue", "keyup", "keydown", "focus", "blur", "click", "click-info", "click-error"],
   setup(a, { expose: N, emit: R }) {
-    const u = R, h = P(), l = a, n = I(16), m = y(null), M = y(l.modelValue), t = y(l.modelValue), p = y(!1), f = y(!l.readMode), U = d(() => typeof l.valid == "function" ? l.valid() : l.valid), $ = d(() => t.value !== M.value), _ = d(() => l.reset || l.infoMessage !== "" || l.errorMessage !== ""), x = d(() => {
+    const u = R, h = P(), l = a, n = I(16), m = y(null), M = y(l.modelValue), t = y(l.modelValue), p = y(!1), f = y(!l.readMode), U = s(() => typeof l.valid == "function" ? l.valid() : l.valid), $ = s(() => t.value !== M.value), _ = s(() => l.reset || l.infoMessage !== "" || l.errorMessage !== ""), x = s(() => {
       let e = 0;
       return l.reset && ++e, l.infoMessage && ++e, e;
-    }), A = d(() => l.resetMessage !== "" ? l.resetMessage : ""), w = d(() => l.autocomplete === !0 ? "on" : "off"), D = d(() => t.value !== ""), j = d(() => {
+    }), D = s(() => l.resetMessage !== "" ? l.resetMessage : ""), w = s(() => l.autocomplete === !0 ? "on" : "off"), j = s(() => t.value !== ""), z = s(() => {
       const e = ["lkt-field", "lkt-field-textarea"];
       return l.palette && e.push(`lkt-field--${l.palette}`), $.value && e.push("is-changed"), l.disabled && e.push("is-disabled"), p.value && e.push("has-focus"), x.value > 0 && e.push("has-icons", `has-icons-${x.value}`), e.push(U.value ? "is-valid" : "is-error"), e.push(l.modelValue ? "is-filled" : "is-empty"), e.join(" ");
-    }), z = d(() => typeof t.value == "number" ? t.value.toString() : t.value), S = () => {
+    }), A = s(() => typeof t.value == "number" ? t.value.toString() : t.value), S = () => {
       X(() => {
         m.value && m.value.focus();
       });
@@ -62,12 +62,12 @@ const Y = ["data-show-ui", "data-labeled"], Z = ["for", "innerHTML"], ee = {
       value: O,
       isMandatory: () => l.mandatory
     }), g(), (e, k) => (o(), i("div", {
-      class: Q(j.value),
+      class: Q(z.value),
       "data-show-ui": _.value,
       "data-labeled": !v(h).label
     }, [
-      v(h).label ? W(e.$slots, "label", { key: 0 }) : s("", !0),
-      v(h).label ? s("", !0) : (o(), i("label", {
+      v(h).label ? W(e.$slots, "label", { key: 0 }) : d("", !0),
+      v(h).label ? d("", !0) : (o(), i("label", {
         key: 1,
         for: v(n),
         innerHTML: a.label
@@ -118,37 +118,37 @@ const Y = ["data-show-ui", "data-labeled"], Z = ["for", "innerHTML"], ee = {
             class: "lkt-field__error-icon",
             title: l.errorMessage,
             onClick: G
-          }, null, 8, oe)) : s("", !0),
+          }, null, 8, oe)) : d("", !0),
           l.infoMessage ? (o(), i("i", {
             key: 1,
             class: "lkt-field__info-icon",
             title: l.infoMessage,
             onClick: q
-          }, null, 8, ie)) : s("", !0),
-          l.reset && D.value ? (o(), i("i", {
+          }, null, 8, ie)) : d("", !0),
+          l.reset && j.value ? (o(), i("i", {
             key: 2,
             class: "lkt-field__reset-icon",
-            title: A.value,
+            title: D.value,
             onClick: g
-          }, null, 8, ne)) : s("", !0),
+          }, null, 8, ne)) : d("", !0),
           l.mandatory ? (o(), i("i", {
             key: 3,
             class: "lkt-field__mandatory-icon",
             title: l.mandatoryMessage
-          }, null, 8, se)) : s("", !0),
+          }, null, 8, de)) : d("", !0),
           a.allowReadModeSwitch ? (o(), i("i", {
             key: 4,
             class: "lkt-field__edit-icon",
             title: l.switchEditionMessage,
             onClick: L
-          }, null, 8, de)) : s("", !0)
-        ])) : s("", !0)
-      ])) : s("", !0),
-      f.value ? s("", !0) : (o(), i("div", ue, [
+          }, null, 8, se)) : d("", !0)
+        ])) : d("", !0)
+      ])) : d("", !0),
+      f.value ? d("", !0) : (o(), i("div", ue, [
         H("div", {
           class: "lkt-field-textarea__read-value",
           innerHTML: t.value,
-          title: z.value
+          title: A.value
         }, null, 8, re),
         a.allowReadModeSwitch ? (o(), i("div", ce, [
           H("i", {
@@ -156,15 +156,15 @@ const Y = ["data-show-ui", "data-labeled"], Z = ["for", "innerHTML"], ee = {
             title: l.switchEditionMessage,
             onClick: L
           }, null, 8, fe)
-        ])) : s("", !0)
+        ])) : d("", !0)
       ]))
     ], 10, Y));
   }
-}), pe = {
+}), he = {
   install: (a) => {
-    a.component("lkt-field-textarea") === void 0 && a.component("lkt-field-textarea", ye);
+    a.component("lkt-field-textarea") === void 0 && a.component("lkt-field-textarea", ve);
   }
 };
 export {
-  pe as default
+  he as default
 };

@@ -1,7 +1,3 @@
-<script lang="ts">
-export default {name: "LktFieldTextArea", inheritAttrs: false}
-</script>
-
 <script lang="ts" setup>
 // Emits
 import {generateRandomString} from "lkt-string-tools";

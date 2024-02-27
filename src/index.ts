@@ -1,6 +1,6 @@
 import { App } from 'vue';
 
-import { default as textAreaField } from './lib-components/LktFieldTextArea.vue';
+import { default as textAreaField } from './lib-components/LktFieldTextarea.vue';
 
 import "./../lkt-field-textarea.css";
 

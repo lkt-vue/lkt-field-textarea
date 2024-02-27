@@ -1,4 +1,4 @@
-export { pe as default };
-declare namespace pe {
+export { he as default };
+declare namespace he {
     function install(a: any): void;
 }
