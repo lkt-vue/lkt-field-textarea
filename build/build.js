@@ -52,7 +52,7 @@ const Y = ["data-show-ui", "data-labeled"], Z = ["for", "innerHTML"], ee = {
     b(() => l.readMode, (e) => f.value = !e), b(() => l.modelValue, (e) => {
       t.value = e;
     }), b(t, (e) => u("update:modelValue", e));
-    const g = () => t.value = M.value, O = () => t.value, V = (e) => u("keyup", e, c(n, { value: t.value })), C = (e) => u("keydown", e, c(n, { value: t.value })), T = (e) => (p.value = !0) && u("focus", e, c(n, { value: t.value })), B = (e) => (p.value = !1) && u("blur", e, c(n, { value: t.value })), E = (e) => u("click", e, c(n, { value: t.value })), q = (e) => u("click-info", e, c(n, { value: t.value })), G = (e) => u("click-error", e, c(n, { value: t.value })), L = (e) => {
+    const g = () => t.value = M.value, O = () => t.value, V = (e) => u("keyup", e, c(n, { value: t.value })), C = (e) => u("keydown", e, c(n, { value: t.value })), B = (e) => (p.value = !0) && u("focus", e, c(n, { value: t.value })), T = (e) => (p.value = !1) && u("blur", e, c(n, { value: t.value })), E = (e) => u("click", e, c(n, { value: t.value })), q = (e) => u("click-info", e, c(n, { value: t.value })), G = (e) => u("click-error", e, c(n, { value: t.value })), L = (e) => {
       f.value = !f.value, f.value && S();
     };
     return N({
@@ -87,8 +87,8 @@ const Y = ["data-show-ui", "data-labeled"], Z = ["for", "innerHTML"], ee = {
           autocomplete: w.value,
           onKeyup: V,
           onKeydown: C,
-          onFocus: T,
-          onBlur: B,
+          onFocus: B,
+          onBlur: T,
           onClick: E
         }, null, 40, le)), [
           [F, t.value]
@@ -105,8 +105,8 @@ const Y = ["data-show-ui", "data-labeled"], Z = ["for", "innerHTML"], ee = {
           autocomplete: w.value,
           onKeyup: V,
           onKeydown: C,
-          onFocus: T,
-          onBlur: B,
+          onFocus: B,
+          onBlur: T,
           onClick: E
         }, `\r
                     `, 40, te)), [
@@ -160,8 +160,7 @@ const Y = ["data-show-ui", "data-labeled"], Z = ["for", "innerHTML"], ee = {
       ]))
     ], 10, Y));
   }
-});
-const pe = {
+}), pe = {
   install: (a) => {
     a.component("lkt-field-textarea") === void 0 && a.component("lkt-field-textarea", ye);
   }
