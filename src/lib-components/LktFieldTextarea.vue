@@ -3,6 +3,7 @@
 import {generateRandomString} from "lkt-string-tools";
 import {computed, nextTick, ref, useSlots, watch} from "vue";
 import {createLktEvent} from "lkt-events";
+import {Settings} from "../settings/Settings";
 
 const emits = defineEmits(['update:modelValue', 'keyup', 'keydown', 'focus', 'blur', 'click', 'click-info', 'click-error']);
 
@@ -10,27 +11,55 @@ const emits = defineEmits(['update:modelValue', 'keyup', 'keydown', 'focus', 'bl
 const slots = useSlots();
 
 // Props
-const props = defineProps({
-    modelValue: {type: [String, Number], default: ''},
-
-    placeholder: {type: String, default: ''},
-    label: {type: String, default: ''},
-    palette: {type: String, default: ''},
-    name: {type: String, default: generateRandomString(16)},
-    valid: {type: Boolean, default: false},
-    autocomplete: {type: Boolean, default: true},
-    disabled: {type: Boolean, default: false},
-    readonly: {type: Boolean, default: false},
-    readMode: {type: Boolean, default: false},
-    allowReadModeSwitch: {type: Boolean, default: false},
-    tabindex: {type: Number, default: undefined},
-    mandatory: {type: Boolean, default: false},
-    reset: {type: Boolean, default: false},
-    resetMessage: {type: String, default: ''},
-    mandatoryMessage: {type: String, default: ''},
-    infoMessage: {type: String, default: ''},
-    errorMessage: {type: String, default: ''},
-    switchEditionMessage: {type: String, default: ''},
+const props = withDefaults(defineProps<{
+    modelValue: string | number
+    placeholder?: string
+    label?: string
+    palette?: string
+    name?: string
+    valid?: boolean
+    autocomplete?: boolean
+    disabled?: boolean
+    readonly?: boolean
+    readMode?: boolean
+    allowReadModeSwitch?: boolean
+    tabindex?: number
+    mandatory?: boolean
+    reset?: boolean
+    resetMessage?: string
+    mandatoryMessage?: string
+    infoMessage?: string
+    errorMessage?: string
+    switchEditionMessage?: string
+    emptyValueSlot?: string
+    valueSlot?: string
+    editSlot?: string
+    slotData?: LktObject
+}>(), {
+    modelValue: '',
+    placeholder: '',
+    label: '',
+    palette: '',
+    name: generateRandomString(16),
+    valid: false,
+    autocomplete: true,
+    disabled: false,
+    readonly: false,
+    readMode: false,
+    allowReadModeSwitch: false,
+    tabindex: undefined,
+    mandatory: false,
+    reset: false,
+    resetMessage: '',
+    mandatoryMessage: '',
+    infoMessage: '',
+    errorMessage: '',
+    showPasswordMessage: '',
+    switchEditionMessage: '',
+    emptyValueSlot: '',
+    valueSlot: '',
+    editSlot: '',
+    slotData: () => ({}),
 });
 
 // Constant data
@@ -131,6 +160,22 @@ defineExpose({
 });
 
 reset();
+
+const hasCustomValueSlot = computed(() => {
+        if (value.value === '') {
+            return (props.emptyValueSlot !== '' && typeof Settings.customValueSlots[props.emptyValueSlot] !== 'undefined') || (Settings.defaultEmptyValueSlot && typeof Settings.customValueSlots[Settings.defaultEmptyValueSlot] !== 'undefined');
+        }
+        return props.valueSlot !== '' && typeof Settings.customValueSlots[props.valueSlot] !== 'undefined';
+    }),
+    customValueSlot = computed(() => {
+        if (value.value === '') {
+            return Settings.customValueSlots[props.emptyValueSlot] ?? Settings.customValueSlots[Settings.defaultEmptyValueSlot];
+        }
+
+        return Settings.customValueSlots[props.valueSlot];
+    }),
+    hasCustomEditSlot = computed(() => props.editSlot !== '' && typeof Settings.customEditSlots[props.editSlot] !== 'undefined'),
+    customEditSlot = computed(() => Settings.customEditSlots[props.editSlot]);
 </script>
 
 <template>
@@ -142,39 +187,48 @@ reset();
         <label v-if="!!!slots.label" :for="Identifier" v-html="label"></label>
 
         <div v-if="editable" class="lkt-field-text__main">
-            <template v-if="placeholder">
+            <template v-if="slots['edit']">
+                <div v-on:click="onClick">
+                    <slot name="edit" v-bind:value="value" :title="readModeTitle" :data="slotData"></slot>
+                </div>
+            </template>
+            <div v-else-if="hasCustomEditSlot" v-on:click="onClick">
+                <component v-bind:is="customEditSlot"
+                           v-bind:value="value" :title="readModeTitle" :data="slotData"></component>
+            </div>
+            <template v-else-if="placeholder">
                 <textarea v-model="value"
-                       :ref="(el:any) => inputElement = el"
-                       v-bind:value="value"
-                       v-bind:name="name"
-                       v-bind:id="Identifier"
-                       v-bind:disabled="disabled"
-                       v-bind:readonly="readonly"
-                       v-bind:placeholder="placeholder"
-                       v-bind:tabindex="tabindex"
-                       v-bind:autocomplete="autocompleteText"
-                       v-on:keyup="onKeyUp"
-                       v-on:keydown="onKeyDown"
-                       v-on:focus="onFocus"
-                       v-on:blur="onBlur"
-                       v-on:click="onClick"
+                          :ref="(el:any) => inputElement = el"
+                          v-bind:value="value"
+                          v-bind:name="name"
+                          v-bind:id="Identifier"
+                          v-bind:disabled="disabled"
+                          v-bind:readonly="readonly"
+                          v-bind:placeholder="placeholder"
+                          v-bind:tabindex="tabindex"
+                          v-bind:autocomplete="autocompleteText"
+                          v-on:keyup="onKeyUp"
+                          v-on:keydown="onKeyDown"
+                          v-on:focus="onFocus"
+                          v-on:blur="onBlur"
+                          v-on:click="onClick"
                 ></textarea>
             </template>
             <template v-else>
                 <textarea v-model="value"
-                       :ref="(el:any) => inputElement = el"
-                       v-bind:value="value"
-                       v-bind:name="name"
-                       v-bind:id="Identifier"
-                       v-bind:disabled="disabled"
-                       v-bind:readonly="readonly"
-                       v-bind:tabindex="tabindex"
-                       v-bind:autocomplete="autocompleteText"
-                       v-on:keyup="onKeyUp"
-                       v-on:keydown="onKeyDown"
-                       v-on:focus="onFocus"
-                       v-on:blur="onBlur"
-                       v-on:click="onClick">
+                          :ref="(el:any) => inputElement = el"
+                          v-bind:value="value"
+                          v-bind:name="name"
+                          v-bind:id="Identifier"
+                          v-bind:disabled="disabled"
+                          v-bind:readonly="readonly"
+                          v-bind:tabindex="tabindex"
+                          v-bind:autocomplete="autocompleteText"
+                          v-on:keyup="onKeyUp"
+                          v-on:keydown="onKeyDown"
+                          v-on:focus="onFocus"
+                          v-on:blur="onBlur"
+                          v-on:click="onClick">
                     </textarea>
             </template>
 
@@ -192,7 +246,12 @@ reset();
         </div>
 
         <div v-if="!editable" class="lkt-field-textarea__read">
-            <div class="lkt-field-textarea__read-value" v-html="value" :title="readModeTitle"></div>
+            <template v-if="slots['value']">
+                <slot name="value" v-bind:value="value" :title="readModeTitle" :data="slotData"></slot>
+            </template>
+            <component v-else-if="hasCustomValueSlot" v-bind:is="customValueSlot"
+                       v-bind:value="value" :title="readModeTitle"></component>
+            <div v-else class="lkt-field-textarea__read-value" v-html="value" :title="readModeTitle"></div>
             <div v-if="allowReadModeSwitch" class="lkt-field__state">
                 <i class="lkt-field__edit-icon" :title="props.switchEditionMessage"
                    v-on:click="onClickSwitchEdition"></i>

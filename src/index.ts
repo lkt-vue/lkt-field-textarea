@@ -3,6 +3,7 @@ import { App } from 'vue';
 import { default as textAreaField } from './lib-components/LktFieldTextarea.vue';
 
 import "./../lkt-field-textarea.css";
+import {Settings} from "./settings/Settings";
 
 const LktFieldTextArea = {
   install: (app: App) => {
@@ -12,3 +13,20 @@ const LktFieldTextArea = {
 };
 
 export default LktFieldTextArea;
+
+
+export const setDefaultTextareaEmptyValueSlot = (str: string, component?: string|Component) => {
+  Settings.defaultEmptyValueSlot = str;
+
+  if (component) Settings.customValueSlots[str] = component;
+}
+
+export const setTextareaValueSlot = (resource: string, component: string|Component) => {
+  Settings.customValueSlots[resource] = component;
+  return true;
+}
+
+export const setTextareaEditSlot = (resource: string, component: string|Component) => {
+  Settings.customEditSlots[resource] = component;
+  return true;
+}

@@ -1,170 +1,213 @@
-import { defineComponent as J, useSlots as P, ref as y, computed as s, watch as b, openBlock as o, createElementBlock as i, normalizeClass as Q, unref as v, renderSlot as W, createCommentVNode as d, withDirectives as K, vModelText as F, createElementVNode as H, nextTick as X } from "vue";
-import { generateRandomString as I } from "lkt-string-tools";
-import { createLktEvent as c } from "lkt-events";
-const Y = ["data-show-ui", "data-labeled"], Z = ["for", "innerHTML"], ee = {
+import { defineComponent as ee, useSlots as le, ref as S, computed as s, watch as g, openBlock as a, createElementBlock as o, normalizeClass as te, unref as c, renderSlot as E, createCommentVNode as n, createBlock as H, resolveDynamicComponent as I, withDirectives as R, vModelText as U, createElementVNode as ae, nextTick as oe } from "vue";
+import { generateRandomString as N } from "lkt-string-tools";
+import { createLktEvent as m } from "lkt-events";
+const u = {
+  defaultEmptyValueSlot: "",
+  customValueSlots: {},
+  customEditSlots: {}
+}, ue = ["data-show-ui", "data-labeled"], se = ["for", "innerHTML"], ie = {
   key: 2,
   class: "lkt-field-text__main"
-}, le = ["value", "name", "id", "disabled", "readonly", "placeholder", "tabindex", "autocomplete"], te = ["value", "name", "id", "disabled", "readonly", "tabindex", "autocomplete"], ae = {
-  key: 2,
+}, de = ["value", "name", "id", "disabled", "readonly", "placeholder", "tabindex", "autocomplete"], ne = ["value", "name", "id", "disabled", "readonly", "tabindex", "autocomplete"], re = {
+  key: 4,
   class: "lkt-field__state"
-}, oe = ["title"], ie = ["title"], ne = ["title"], de = ["title"], se = ["title"], ue = {
+}, fe = ["title"], ce = ["title"], ve = ["title"], me = ["title"], pe = ["title"], ye = {
   key: 3,
   class: "lkt-field-textarea__read"
-}, re = ["innerHTML", "title"], ce = {
-  key: 0,
+}, ke = ["innerHTML", "title"], Se = {
+  key: 3,
   class: "lkt-field__state"
-}, fe = ["title"], ve = /* @__PURE__ */ J({
+}, he = ["title"], Ve = /* @__PURE__ */ ee({
   __name: "LktFieldTextarea",
   props: {
-    modelValue: { type: [String, Number], default: "" },
-    placeholder: { type: String, default: "" },
-    label: { type: String, default: "" },
-    palette: { type: String, default: "" },
-    name: { type: String, default: I(16) },
+    modelValue: { default: "" },
+    placeholder: { default: "" },
+    label: { default: "" },
+    palette: { default: "" },
+    name: { default: N(16) },
     valid: { type: Boolean, default: !1 },
     autocomplete: { type: Boolean, default: !0 },
     disabled: { type: Boolean, default: !1 },
     readonly: { type: Boolean, default: !1 },
     readMode: { type: Boolean, default: !1 },
     allowReadModeSwitch: { type: Boolean, default: !1 },
-    tabindex: { type: Number, default: void 0 },
+    tabindex: { default: void 0 },
     mandatory: { type: Boolean, default: !1 },
     reset: { type: Boolean, default: !1 },
-    resetMessage: { type: String, default: "" },
-    mandatoryMessage: { type: String, default: "" },
-    infoMessage: { type: String, default: "" },
-    errorMessage: { type: String, default: "" },
-    switchEditionMessage: { type: String, default: "" }
+    resetMessage: { default: "" },
+    mandatoryMessage: { default: "" },
+    infoMessage: { default: "" },
+    errorMessage: { default: "" },
+    switchEditionMessage: { default: "" },
+    emptyValueSlot: { default: "" },
+    valueSlot: { default: "" },
+    editSlot: { default: "" },
+    slotData: { default: () => ({}) }
   },
   emits: ["update:modelValue", "keyup", "keydown", "focus", "blur", "click", "click-info", "click-error"],
-  setup(a, { expose: N, emit: R }) {
-    const u = R, h = P(), l = a, n = I(16), m = y(null), M = y(l.modelValue), t = y(l.modelValue), p = y(!1), f = y(!l.readMode), U = s(() => typeof l.valid == "function" ? l.valid() : l.valid), $ = s(() => t.value !== M.value), _ = s(() => l.reset || l.infoMessage !== "" || l.errorMessage !== ""), x = s(() => {
+  setup(i, { expose: r, emit: j }) {
+    const f = j, y = le(), l = i, d = N(16), h = S(null), w = S(l.modelValue), t = S(l.modelValue), M = S(!1), p = S(!l.readMode), z = s(() => typeof l.valid == "function" ? l.valid() : l.valid), A = s(() => t.value !== w.value), C = s(() => l.reset || l.infoMessage !== "" || l.errorMessage !== ""), T = s(() => {
       let e = 0;
       return l.reset && ++e, l.infoMessage && ++e, e;
-    }), D = s(() => l.resetMessage !== "" ? l.resetMessage : ""), w = s(() => l.autocomplete === !0 ? "on" : "off"), j = s(() => t.value !== ""), z = s(() => {
+    }), O = s(() => l.resetMessage !== "" ? l.resetMessage : ""), B = s(() => l.autocomplete === !0 ? "on" : "off"), q = s(() => t.value !== ""), G = s(() => {
       const e = ["lkt-field", "lkt-field-textarea"];
-      return l.palette && e.push(`lkt-field--${l.palette}`), $.value && e.push("is-changed"), l.disabled && e.push("is-disabled"), p.value && e.push("has-focus"), x.value > 0 && e.push("has-icons", `has-icons-${x.value}`), e.push(U.value ? "is-valid" : "is-error"), e.push(l.modelValue ? "is-filled" : "is-empty"), e.join(" ");
-    }), A = s(() => typeof t.value == "number" ? t.value.toString() : t.value), S = () => {
-      X(() => {
-        m.value && m.value.focus();
+      return l.palette && e.push(`lkt-field--${l.palette}`), A.value && e.push("is-changed"), l.disabled && e.push("is-disabled"), M.value && e.push("has-focus"), T.value > 0 && e.push("has-icons", `has-icons-${T.value}`), e.push(z.value ? "is-valid" : "is-error"), e.push(l.modelValue ? "is-filled" : "is-empty"), e.join(" ");
+    }), k = s(() => typeof t.value == "number" ? t.value.toString() : t.value), x = () => {
+      oe(() => {
+        h.value && h.value.focus();
       });
     };
-    b(() => l.readMode, (e) => f.value = !e), b(() => l.modelValue, (e) => {
+    g(() => l.readMode, (e) => p.value = !e), g(() => l.modelValue, (e) => {
       t.value = e;
-    }), b(t, (e) => u("update:modelValue", e));
-    const g = () => t.value = M.value, O = () => t.value, V = (e) => u("keyup", e, c(n, { value: t.value })), C = (e) => u("keydown", e, c(n, { value: t.value })), B = (e) => (p.value = !0) && u("focus", e, c(n, { value: t.value })), T = (e) => (p.value = !1) && u("blur", e, c(n, { value: t.value })), E = (e) => u("click", e, c(n, { value: t.value })), q = (e) => u("click-info", e, c(n, { value: t.value })), G = (e) => u("click-error", e, c(n, { value: t.value })), L = (e) => {
-      f.value = !f.value, f.value && S();
+    }), g(t, (e) => f("update:modelValue", e));
+    const b = () => t.value = w.value, J = () => t.value, D = (e) => f("keyup", e, m(d, { value: t.value })), L = (e) => f("keydown", e, m(d, { value: t.value })), K = (e) => (M.value = !0) && f("focus", e, m(d, { value: t.value })), $ = (e) => (M.value = !1) && f("blur", e, m(d, { value: t.value })), V = (e) => f("click", e, m(d, { value: t.value })), P = (e) => f("click-info", e, m(d, { value: t.value })), Q = (e) => f("click-error", e, m(d, { value: t.value })), F = (e) => {
+      p.value = !p.value, p.value && x();
     };
-    return N({
-      Identifier: n,
-      reset: g,
-      focus: S,
-      value: O,
+    r({
+      Identifier: d,
+      reset: b,
+      focus: x,
+      value: J,
       isMandatory: () => l.mandatory
-    }), g(), (e, k) => (o(), i("div", {
-      class: Q(z.value),
-      "data-show-ui": _.value,
-      "data-labeled": !v(h).label
+    }), b();
+    const W = s(() => t.value === "" ? l.emptyValueSlot !== "" && typeof u.customValueSlots[l.emptyValueSlot] < "u" || u.defaultEmptyValueSlot && typeof u.customValueSlots[u.defaultEmptyValueSlot] < "u" : l.valueSlot !== "" && typeof u.customValueSlots[l.valueSlot] < "u"), X = s(() => t.value === "" ? u.customValueSlots[l.emptyValueSlot] ?? u.customValueSlots[u.defaultEmptyValueSlot] : u.customValueSlots[l.valueSlot]), Y = s(() => l.editSlot !== "" && typeof u.customEditSlots[l.editSlot] < "u"), Z = s(() => u.customEditSlots[l.editSlot]);
+    return (e, _) => (a(), o("div", {
+      class: te(G.value),
+      "data-show-ui": C.value,
+      "data-labeled": !c(y).label
     }, [
-      v(h).label ? W(e.$slots, "label", { key: 0 }) : d("", !0),
-      v(h).label ? d("", !0) : (o(), i("label", {
+      c(y).label ? E(e.$slots, "label", { key: 0 }) : n("", !0),
+      c(y).label ? n("", !0) : (a(), o("label", {
         key: 1,
-        for: v(n),
-        innerHTML: a.label
-      }, null, 8, Z)),
-      f.value ? (o(), i("div", ee, [
-        a.placeholder ? K((o(), i("textarea", {
+        for: c(d),
+        innerHTML: e.label
+      }, null, 8, se)),
+      p.value ? (a(), o("div", ie, [
+        c(y).edit ? (a(), o("div", {
           key: 0,
-          "onUpdate:modelValue": k[0] || (k[0] = (r) => t.value = r),
-          ref: (r) => m.value = r,
-          value: t.value,
-          name: a.name,
-          id: v(n),
-          disabled: a.disabled,
-          readonly: a.readonly,
-          placeholder: a.placeholder,
-          tabindex: a.tabindex,
-          autocomplete: w.value,
-          onKeyup: V,
-          onKeydown: C,
-          onFocus: B,
-          onBlur: T,
-          onClick: E
-        }, null, 40, le)), [
-          [F, t.value]
-        ]) : K((o(), i("textarea", {
+          onClick: V
+        }, [
+          E(e.$slots, "edit", {
+            value: t.value,
+            title: k.value,
+            data: e.slotData
+          })
+        ])) : Y.value ? (a(), o("div", {
           key: 1,
-          "onUpdate:modelValue": k[1] || (k[1] = (r) => t.value = r),
-          ref: (r) => m.value = r,
+          onClick: V
+        }, [
+          (a(), H(I(Z.value), {
+            value: t.value,
+            title: k.value,
+            data: e.slotData
+          }, null, 8, ["value", "title", "data"]))
+        ])) : e.placeholder ? R((a(), o("textarea", {
+          key: 2,
+          "onUpdate:modelValue": _[0] || (_[0] = (v) => t.value = v),
+          ref: (v) => h.value = v,
           value: t.value,
-          name: a.name,
-          id: v(n),
-          disabled: a.disabled,
-          readonly: a.readonly,
-          tabindex: a.tabindex,
-          autocomplete: w.value,
-          onKeyup: V,
-          onKeydown: C,
-          onFocus: B,
-          onBlur: T,
-          onClick: E
+          name: e.name,
+          id: c(d),
+          disabled: e.disabled,
+          readonly: e.readonly,
+          placeholder: e.placeholder,
+          tabindex: e.tabindex,
+          autocomplete: B.value,
+          onKeyup: D,
+          onKeydown: L,
+          onFocus: K,
+          onBlur: $,
+          onClick: V
+        }, null, 40, de)), [
+          [U, t.value]
+        ]) : R((a(), o("textarea", {
+          key: 3,
+          "onUpdate:modelValue": _[1] || (_[1] = (v) => t.value = v),
+          ref: (v) => h.value = v,
+          value: t.value,
+          name: e.name,
+          id: c(d),
+          disabled: e.disabled,
+          readonly: e.readonly,
+          tabindex: e.tabindex,
+          autocomplete: B.value,
+          onKeyup: D,
+          onKeydown: L,
+          onFocus: K,
+          onBlur: $,
+          onClick: V
         }, `\r
-                    `, 40, te)), [
-          [F, t.value]
+                    `, 40, ne)), [
+          [U, t.value]
         ]),
-        _.value ? (o(), i("div", ae, [
-          l.errorMessage ? (o(), i("i", {
+        C.value ? (a(), o("div", re, [
+          l.errorMessage ? (a(), o("i", {
             key: 0,
             class: "lkt-field__error-icon",
             title: l.errorMessage,
-            onClick: G
-          }, null, 8, oe)) : d("", !0),
-          l.infoMessage ? (o(), i("i", {
+            onClick: Q
+          }, null, 8, fe)) : n("", !0),
+          l.infoMessage ? (a(), o("i", {
             key: 1,
             class: "lkt-field__info-icon",
             title: l.infoMessage,
-            onClick: q
-          }, null, 8, ie)) : d("", !0),
-          l.reset && j.value ? (o(), i("i", {
+            onClick: P
+          }, null, 8, ce)) : n("", !0),
+          l.reset && q.value ? (a(), o("i", {
             key: 2,
             class: "lkt-field__reset-icon",
-            title: D.value,
-            onClick: g
-          }, null, 8, ne)) : d("", !0),
-          l.mandatory ? (o(), i("i", {
+            title: O.value,
+            onClick: b
+          }, null, 8, ve)) : n("", !0),
+          l.mandatory ? (a(), o("i", {
             key: 3,
             class: "lkt-field__mandatory-icon",
             title: l.mandatoryMessage
-          }, null, 8, de)) : d("", !0),
-          a.allowReadModeSwitch ? (o(), i("i", {
+          }, null, 8, me)) : n("", !0),
+          e.allowReadModeSwitch ? (a(), o("i", {
             key: 4,
             class: "lkt-field__edit-icon",
             title: l.switchEditionMessage,
-            onClick: L
-          }, null, 8, se)) : d("", !0)
-        ])) : d("", !0)
-      ])) : d("", !0),
-      f.value ? d("", !0) : (o(), i("div", ue, [
-        H("div", {
+            onClick: F
+          }, null, 8, pe)) : n("", !0)
+        ])) : n("", !0)
+      ])) : n("", !0),
+      p.value ? n("", !0) : (a(), o("div", ye, [
+        c(y).value ? E(e.$slots, "value", {
+          key: 0,
+          value: t.value,
+          title: k.value,
+          data: e.slotData
+        }) : W.value ? (a(), H(I(X.value), {
+          key: 1,
+          value: t.value,
+          title: k.value
+        }, null, 8, ["value", "title"])) : (a(), o("div", {
+          key: 2,
           class: "lkt-field-textarea__read-value",
           innerHTML: t.value,
-          title: A.value
-        }, null, 8, re),
-        a.allowReadModeSwitch ? (o(), i("div", ce, [
-          H("i", {
+          title: k.value
+        }, null, 8, ke)),
+        e.allowReadModeSwitch ? (a(), o("div", Se, [
+          ae("i", {
             class: "lkt-field__edit-icon",
             title: l.switchEditionMessage,
-            onClick: L
-          }, null, 8, fe)
-        ])) : d("", !0)
+            onClick: F
+          }, null, 8, he)
+        ])) : n("", !0)
       ]))
-    ], 10, Y));
+    ], 10, ue));
   }
-}), he = {
-  install: (a) => {
-    a.component("lkt-field-textarea") === void 0 && a.component("lkt-field-textarea", ve);
+}), ge = {
+  install: (i) => {
+    i.component("lkt-field-textarea") === void 0 && i.component("lkt-field-textarea", Ve);
   }
-};
+}, Ee = (i, r) => {
+  u.defaultEmptyValueSlot = i, r && (u.customValueSlots[i] = r);
+}, we = (i, r) => (u.customValueSlots[i] = r, !0), Ce = (i, r) => (u.customEditSlots[i] = r, !0);
 export {
-  he as default
+  ge as default,
+  Ee as setDefaultTextareaEmptyValueSlot,
+  Ce as setTextareaEditSlot,
+  we as setTextareaValueSlot
 };
