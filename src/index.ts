@@ -2,7 +2,6 @@ import { App } from 'vue';
 
 import { default as textAreaField } from './lib-components/LktFieldTextarea.vue';
 
-import "./../lkt-field-textarea.css";
 import {Settings} from "./settings/Settings";
 
 const LktFieldTextArea = {
