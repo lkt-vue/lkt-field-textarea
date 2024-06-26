@@ -1,5 +1,7 @@
 import { App } from 'vue';
 
+import LktFieldValidation from 'lkt-field-validation';
+
 import { default as textAreaField } from './lib-components/LktFieldTextarea.vue';
 
 import {Settings} from "./settings/Settings";
@@ -8,6 +10,7 @@ const LktFieldTextArea = {
   install: (app: App) => {
     // Register plugin components
     if (app.component('lkt-field-textarea') === undefined) app.component('lkt-field-textarea', textAreaField);
+    if (app.component('lkt-field-validations') === undefined) app.use(LktFieldValidation);
   },
 };
 

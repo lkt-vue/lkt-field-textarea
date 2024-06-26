@@ -35,6 +35,10 @@ const props = withDefaults(defineProps<{
     valueSlot?: string
     editSlot?: string
     slotData?: LktObject
+    min?: number|string|undefined
+    max?: number|string|undefined
+    autoValidation?: boolean
+    validationStack?: string
 }>(), {
     modelValue: '',
     placeholder: '',
@@ -60,6 +64,10 @@ const props = withDefaults(defineProps<{
     valueSlot: '',
     editSlot: '',
     slotData: () => ({}),
+    min: undefined,
+    max: undefined,
+    autoValidation: false,
+    validationStack: 'default',
 });
 
 // Constant data
@@ -73,6 +81,9 @@ const inputElement = ref(null);
 const originalValue = ref(props.modelValue),
     value = ref(props.modelValue),
     focusing = ref(false),
+    hadFirstBlur = ref(false),
+    hadFirstFocus = ref(false),
+    localValidationStatus = ref([]),
     editable = ref(!props.readMode);
 
 
@@ -109,6 +120,11 @@ const isValid = computed(() => {
         if (props.disabled) r.push('is-disabled');
         if (focusing.value) r.push('has-focus');
 
+        if (props.autoValidation && hadFirstFocus.value && hadFirstBlur.value) {
+            if (localValidationStatus.value.length > 0) r.push('is-invalid');
+            else r.push('is-valid');
+        }
+
         if (amountOfIcons.value > 0) r.push(`has-icons`, `has-icons-${amountOfIcons.value}`);
 
         r.push(isValid.value ? 'is-valid' : 'is-error');
@@ -119,6 +135,18 @@ const isValid = computed(() => {
     readModeTitle = computed(() => {
         if (typeof value.value === 'number') return value.value.toString();
         return value.value;
+    }),
+    computedLabel = computed(() => {
+        if (props.label.startsWith('__:')) {
+            return __(props.label.substring(3));
+        }
+        return props.label;
+    }),
+    computedPlaceholder = computed(() => {
+        if (props.placeholder.startsWith('__:')) {
+            return __(props.placeholder.substring(3));
+        }
+        return props.placeholder;
     });
 
 const focus = () => {
@@ -135,14 +163,50 @@ watch(() => props.readMode, (v) => editable.value = !v)
 watch(() => props.modelValue, (v) => {
     value.value = v
 })
-watch(value, (v) => emits('update:modelValue', v))
+watch(value, (v) => {
+    emits('update:modelValue', v);
+    doLocalValidation();
+})
+
+const doLocalValidation = () => {
+    if (!hadFirstBlur.value || !hadFirstFocus.value) {
+        return;
+    }
+
+    localValidationStatus.value = [];
+
+    let min = Number(props.min);
+    if (min > 0) {
+        if (value.value.length < min) {
+            localValidationStatus.value.push('ko-min-str');
+        }
+    }
+
+    let max = Number(props.max);
+    if (max > 0) {
+        if (value.value.length > max) {
+            localValidationStatus.value.push('ko-max-str');
+        }
+    }
+}
+
 
 const reset = () => value.value = originalValue.value,
     getValue = () => value.value,
-    onKeyUp = ($event: any) => emits('keyup', $event, createLktEvent(Identifier, {value: value.value})),
+    onKeyUp = ($event: any) => {
+        doLocalValidation();
+        emits('keyup', $event, createLktEvent(Identifier, {value: value.value}))
+    },
     onKeyDown = ($event: any) => emits('keydown', $event, createLktEvent(Identifier, {value: value.value})),
-    onFocus = ($event: any) => (focusing.value = true) && emits('focus', $event, createLktEvent(Identifier, {value: value.value})),
-    onBlur = ($event: any) => (focusing.value = false) && emits('blur', $event, createLktEvent(Identifier, {value: value.value})),
+    onFocus = ($event: any) => {
+        hadFirstFocus.value = true;
+        (focusing.value = true) && emits('focus', $event, createLktEvent(Identifier, {value: value.value}))
+    },
+    onBlur = ($event: any) => {
+        hadFirstBlur.value = true;
+        doLocalValidation();
+        (focusing.value = false) && emits('blur', $event, createLktEvent(Identifier, {value: value.value}))
+    },
     onClick = ($event: any) => emits('click', $event, createLktEvent(Identifier, {value: value.value})),
     onClickInfo = ($event: any) => emits('click-info', $event, createLktEvent(Identifier, {value: value.value})),
     onClickError = ($event: any) => emits('click-error', $event, createLktEvent(Identifier, {value: value.value})),
@@ -184,9 +248,9 @@ const hasCustomValueSlot = computed(() => {
          v-bind:data-labeled="!!!slots.label"
     >
         <slot v-if="!!slots.label" name="label"></slot>
-        <label v-if="!!!slots.label" :for="Identifier" v-html="label"></label>
+        <label v-if="!!!slots.label" :for="Identifier" v-html="computedLabel"></label>
 
-        <div v-if="editable" class="lkt-field-text__main">
+        <div v-if="editable" class="lkt-field-main">
             <template v-if="slots['edit']">
                 <div v-on:click="onClick">
                     <slot name="edit" v-bind:value="value" :title="readModeTitle" :data="slotData"></slot>
@@ -196,7 +260,7 @@ const hasCustomValueSlot = computed(() => {
                 <component v-bind:is="customEditSlot"
                            v-bind:value="value" :title="readModeTitle" :data="slotData"></component>
             </div>
-            <template v-else-if="placeholder">
+            <template v-else-if="computedPlaceholder">
                 <textarea v-model="value"
                           :ref="(el:any) => inputElement = el"
                           v-bind:value="value"
@@ -204,7 +268,7 @@ const hasCustomValueSlot = computed(() => {
                           v-bind:id="Identifier"
                           v-bind:disabled="disabled"
                           v-bind:readonly="readonly"
-                          v-bind:placeholder="placeholder"
+                          v-bind:placeholder="computedPlaceholder"
                           v-bind:tabindex="tabindex"
                           v-bind:autocomplete="autocompleteText"
                           v-on:keyup="onKeyUp"
@@ -257,5 +321,7 @@ const hasCustomValueSlot = computed(() => {
                    v-on:click="onClickSwitchEdition"></i>
             </div>
         </div>
+
+        <lkt-field-validations v-if="autoValidation && localValidationStatus.length > 0" :items="localValidationStatus" :stack="validationStack"/>
     </div>
 </template>
