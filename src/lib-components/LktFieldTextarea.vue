@@ -4,6 +4,7 @@ import {generateRandomString} from "lkt-string-tools";
 import {computed, nextTick, ref, useSlots, watch} from "vue";
 import {createLktEvent} from "lkt-events";
 import {Settings} from "../settings/Settings";
+import {__} from "lkt-i18n";
 
 const emits = defineEmits(['update:modelValue', 'keyup', 'keydown', 'focus', 'blur', 'click', 'click-info', 'click-error']);
 
@@ -175,10 +176,16 @@ const doLocalValidation = () => {
 
     localValidationStatus.value = [];
 
-    let min = Number(props.min);
-    if (min > 0) {
-        if (value.value.length < min) {
-            localValidationStatus.value.push('ko-min-str');
+    if (props.mandatory && value.value === '') {
+        localValidationStatus.value.push('ko-empty');
+
+    } else {
+
+        let min = Number(props.min);
+        if (min > 0) {
+            if (value.value.length < min) {
+                localValidationStatus.value.push('ko-min-str');
+            }
         }
     }
 
