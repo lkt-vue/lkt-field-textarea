@@ -1,4 +1,4 @@
-import { App } from 'vue';
+import { App, Plugin } from 'vue';
 
 import LktFieldValidation from 'lkt-field-validation';
 
@@ -6,7 +6,7 @@ import { default as textAreaField } from './lib-components/LktFieldTextarea.vue'
 
 import {Settings} from "./settings/Settings";
 
-const LktFieldTextArea = {
+const LktFieldTextArea: Plugin = {
   install: (app: App) => {
     // Register plugin components
     if (app.component('lkt-field-textarea') === undefined) app.component('lkt-field-textarea', textAreaField);
