@@ -255,7 +255,7 @@ const hasCustomValueSlot = computed(() => {
          v-bind:data-labeled="!!!slots.label"
     >
         <slot v-if="!!slots.label" name="label"></slot>
-        <label v-if="!!!slots.label" :for="Identifier" v-html="computedLabel"></label>
+        <label v-if="!!!slots.label && computedLabel.length > 0" :for="Identifier" v-html="computedLabel"></label>
 
         <div v-if="editable" class="lkt-field-main">
             <template v-if="slots['edit']">
